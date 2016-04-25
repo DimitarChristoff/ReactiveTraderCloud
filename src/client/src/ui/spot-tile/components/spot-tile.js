@@ -159,6 +159,16 @@ class SpotTile extends React.Component {
   }
 
   /**
+   * Does not actually do toFixed, truncates value to precision w/o rounding.
+   * @param {number} val
+   * @param {number} precision
+   * @returns {string}
+   */
+  toFixed(val, precision, factor = Math.pow(10, precision)){
+    return (Math.floor(val * factor) / factor).toFixed(precision);
+  }
+
+  /**
    * Calls back the passed fn with the direction and size
    * @param {String} direction
    */

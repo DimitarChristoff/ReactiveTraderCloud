@@ -119,7 +119,8 @@ export default class Analytics extends React.Component {
     this.setState({
       tearoff: state
     });
-  }
+
+}
 
   formatHistoricData(data = []){
     let lastPos,

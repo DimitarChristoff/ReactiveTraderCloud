@@ -79,6 +79,7 @@ class Popout extends ReactPopout {
 
     // ensure it runs if already fired
     win.document.readyState == 'complete' && onloadhandler();
+    this.setState({openedWindow: win});
 
     return api;
   }

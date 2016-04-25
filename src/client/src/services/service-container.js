@@ -30,7 +30,7 @@ export default class ServiceContainer {
     // that orchestrates app startup and provides services to objects that need it.
 
     var user : model.User = FakeUserRepository.currentUser;
-    var url = 'ws://' + location.hostname + ':8080/ws', realm = 'com.weareadaptive.reactivetrader';
+    var url = 'ws://web-dev.adaptivecluster.com:8080/ws', realm = 'com.weareadaptive.reactivetrader';
     var schedulerService = new system.SchedulerService();
     var autobahnProxy = new system.service.AutobahnConnectionProxy(url, realm);
     this._connection = new system.service.Connection(user.code, autobahnProxy, schedulerService);

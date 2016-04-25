@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
 import { createHashHistory } from 'history';
 
-import ui from './ui';
+import { shell } from './ui';
+
+const { CoreLayout, ShellView, TileView, GrowlView } = shell.components;
 
 const history = createHashHistory({
   queryKey: false
@@ -15,24 +17,19 @@ if (window.fin) {
   target.classList.add('openfin');
 }
 
-var coreLayout = ui.shell.components.CoreLayout;
-var shellView = ui.shell.components.ShellView;
-var tileView = ui.shell.components.TileView;
-var growlView = ui.growl.components.GrowlView;
-
 const routes = (
   <Router history={history}>
-    <Route path='/' component={coreLayout}>
-      <IndexRoute component={shellView}/>
+    <Route path='/' component={CoreLayout}>
+      <IndexRoute component={ShellView}/>
     </Route>
-    <Route path='/user' component={coreLayout}>
-      <IndexRoute component={shellView}/>
+    <Route path='/user' component={CoreLayout}>
+      <IndexRoute component={ShellView}/>
     </Route>
     <Route path='/tile'>
-      <IndexRoute component={tileView}/>
+      <IndexRoute component={TileView}/>
     </Route>
     <Route path='/growl'>
-      <IndexRoute component={growlView}/>
+      <IndexRoute component={GrowlView}/>
     </Route>
   </Router>
 );

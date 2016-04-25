@@ -7,7 +7,7 @@ import NotionalCell from './notional-cell';
 import DateCell from './date-cell';
 
 // containers and layout
-import Dimensions from 'react-dimensions';
+import Dimensions from '../../common/components/react-dimensions/dimensions';;
 import { Container } from '../../common/components';
 
 import { findWhere } from 'lodash';
@@ -30,7 +30,7 @@ class Blotter extends React.Component {
     status: React.PropTypes.number,
     containerWidth: React.PropTypes.number,
     containerHeight: React.PropTypes.number
-  }
+  };
 
   constructor(props, context){
     super(props, context);
