@@ -33,6 +33,7 @@ export default class AnalyticsModel extends ModelBase {
     this._analyticsService = analyticsService;
 
     this.isAnalyticsServiceConnected = false;
+    this._suspendUpdates = false;
     this._pnlChartModel = new PnlChartModel();
     this._positionsChartModel = new PositionsChartModel();
     this._regionManagerHelper = new RegionManagerHelper(RegionNames.quickAccess, regionManager, this);
@@ -67,7 +68,8 @@ export default class AnalyticsModel extends ModelBase {
   @observeEvent('popOutAnalytics')
   _onPopOutAnalytics() {
     _log.info(`Popping out analytics`);
-    this._regionManagerHelper.popout(400, 500);
+    // this.updatesSuspended = true;
+    this._regionManagerHelper.popout('Analytics', 400, 500);
   }
 
   _subscribeToAnalyticsStream() {
@@ -76,6 +78,7 @@ export default class AnalyticsModel extends ModelBase {
         this.router,
         this.modelId,
         (analyticsUpdate:PositionUpdates) => {
+          _log.debug(`Analytics updates`);
           this._pnlChartModel.update(analyticsUpdate.history);
           this._positionsChartModel.update(analyticsUpdate.currentPositions);
         },

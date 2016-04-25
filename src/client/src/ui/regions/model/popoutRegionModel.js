@@ -22,10 +22,11 @@ export default class PopoutRegionModel extends RegionModel {
     let height = modelRegistration.regionSettings && modelRegistration.regionSettings.height
       ? modelRegistration.regionSettings.height
       : 400;
+    var title = options.regionSettings && options.regionSettings.title ? options.regionSettings.title : '';
     let popoutOptions = new PopoutOptions(
       modelRegistration.key,
       '/#/popout',
-      '',
+      title,
       () => this._popoutClosed(modelRegistration.model),
       {
         width: width,

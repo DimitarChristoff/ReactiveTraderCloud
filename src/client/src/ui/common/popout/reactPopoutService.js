@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PopoutOptions } from './';
+import { logger } from '../../../system';
+
 import './popoutRegion.scss';
 
-let POPOUT_CONTAINER_ID = 'container_id';
+let POPOUT_CONTAINER_ID = 'popout-content-container';
+
+let _log:logger.Logger = logger.create('ReactPopoutService');
 
 export default class ReactPopoutService {
   openPopout(options:PopoutOptions, view:React.Component) {
@@ -11,17 +15,19 @@ export default class ReactPopoutService {
     let windowOptionsString = this._getWindowOptionsString(options.windowOptions);
     let childWindow = window.open(options.url, options.title, windowOptionsString);
     let onloadHandler = () => {
-      childWindow.document.title = options.title;
-      popoutContainer = childWindow.document.createElement('div');
-      popoutContainer.id = POPOUT_CONTAINER_ID;
-      childWindow.document.body.appendChild(popoutContainer);
-      ReactDOM.render(view, popoutContainer);
+        _log.info(`loading `);
+        childWindow.document.title = options.title;
+        popoutContainer = childWindow.document.createElement('div');
+        popoutContainer.id = POPOUT_CONTAINER_ID;
+        childWindow.document.body.appendChild(popoutContainer);
+        ReactDOM.render(view, popoutContainer);
     };
     childWindow.onbeforeunload = () =>{
       if(options.onClosing) {
         options.onClosing();
       }
     };
+    _log.info(`ready state is ${childWindow.document.readyState}`);
     childWindow.onload = onloadHandler;
   }
   _getWindowOptionsString(windowOptions:any) {

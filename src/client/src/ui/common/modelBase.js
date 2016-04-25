@@ -4,9 +4,10 @@ import { logger, Guard } from '../../system';
 var _log:logger.Logger = logger.create('ModelBase');
 
 export default class ModelBase extends DisposableBase {
+  _suspendUpdates:boolean;
   _modelId:string;
   router:Router;
-
+  
   constructor(modelId, router) {
     super();
     Guard.isString(modelId, 'modelId required and must be a string');
@@ -28,7 +29,7 @@ export default class ModelBase extends DisposableBase {
   /**
    * Runs the given action on the dispatch loop for this model, ensures that any model observer will be notified of the change
    * @param action
-     */
+   */
   ensureOnDispatchLoop(action:() => void) {
     // TODO update when https://github.com/esp/esp-js/issues/86 is implemented
     this.router.runAction(this.modelId, ()=>{
@@ -38,5 +39,13 @@ export default class ModelBase extends DisposableBase {
 
   get modelId():string {
     return this._modelId;
+  }
+  
+  get updatesSuspended() : boolean {
+    return this._suspendUpdates;
+  }
+
+  set updatesSuspended(value:boolean) {
+    this._suspendUpdates = value;
   }
 }

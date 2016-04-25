@@ -1,8 +1,12 @@
 import React from 'react';
 import { CompositeDisposable } from 'esp-js/src';
-import { router } from '../../system';
+import { router, logger } from '../../system';
+import { ModelBase } from '../common';
+
 import './styles/_base.scss';
 import './styles/_fonts.scss';
+
+var _log:logger.Logger = logger.create('ViewBase');
 
 export default class ViewBase extends React.Component {
   _disposables:CompositeDisposable;
@@ -27,6 +31,7 @@ export default class ViewBase extends React.Component {
   }
 
   componentWillUnmount() {
+    _log.debug(`component will unmount. model id: ${this.props.modelId}`);
     this._disposables.dispose();
   }
 
@@ -35,9 +40,11 @@ export default class ViewBase extends React.Component {
     if (!this._isObservingModel && modelId) {
       this._isObservingModel = true;
       this._disposables.add(
-        router.getModelObservable(modelId).observe(model => {
-          this.setState({model: model});
-        })
+        router.getModelObservable(modelId)
+              .where((model:ModelBase) => !model.updatesSuspended)
+              .observe((model:ModelBase) => {
+                this.setState({model: model});
+              })
       );
     }
   }
